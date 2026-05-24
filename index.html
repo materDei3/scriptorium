@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="manifest" href="manifest.json">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scriptorium</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  transition: all 0.2s ease;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #0f1115;
+  color: #e6e6e6;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 30px;
+  border-bottom: 1px solid #222;
+}
+
+.logo {
+  font-weight: 600;
+}
+
+nav a {
+  color: #aaa;
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: white;
+}
+
+/* HERO */
+.hero {
+  padding: 60px 30px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.hero p {
+  color: #aaa;
+  margin-top: 12px;
+  font-size: 16px;
+}
+
+/* SEARCH */
+.search {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 30px;
+}
+
+.search input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #1b1f2a;
+  color: white;
+  outline: none;
+}
+
+/* FILTERS */
+.filters {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 30px;
+}
+
+.filters button {
+  margin-right: 10px;
+  padding: 6px 12px;
+  background: #1b1f2a;
+  color: #aaa;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.filters button:hover {
+  color: white;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 30px 30px 50px;
+}
+/* STORIES */
+
+.stories{
+  display:flex;
+  gap:18px;
+  overflow-x:auto;
+  margin-bottom:15px;
+}
+
+.story{
+  min-width:90px;
+  text-align:center;
+  cursor:pointer;
+}
+
+.story img{
+  width:85px;
+  height:85px;
+  object-fit:cover;
+  border-radius:50%;
+  border:3px solid #444;
+}
+
+.story span{
+  display:block;
+  margin-top:8px;
+  font-size:12px;
+  color:#aaa;
+}
+
+.archive-link{
+  display:inline-block;
+  margin-bottom:30px;
+  color:#888;
+  text-decoration:none;
+}
+
+/* VIEWER */
+#storyViewer{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.92);
+
+  display:none;
+  justify-content:center;
+  align-items:center;
+
+  z-index:999;
+}
+
+#closeViewer{
+  position:absolute;
+  top:25px;
+  left:25px;
+
+  background:#161925;
+  color:#ddd;
+
+  border:none;
+  padding:10px 16px;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+.viewer-content{
+  width:92%;
+  max-width:420px;
+  text-align:center;
+}
+
+.viewer-content img{
+  width:100%;
+  border-radius:20px;
+}
+
+.viewer-content p{
+  margin-top:18px;
+  color:#ddd;
+}
+
+/* FEATURED */
+.featured {
+  margin-bottom: 30px;
+  padding: 25px;
+  border-radius: 16px;
+  background: #161925;
+  border: 1px solid #222;
+}
+
+.featured:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.featured h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.featured p {
+  margin-top: 8px;
+  color: #aaa;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+/* CARDS */
+.card {
+  text-decoration: none;
+  background: #161925;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid #222;
+  color: #e6e6e6;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+.card:hover {
+  transform: translateY(-6px);
+  border-color: #444;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+
+.card strong {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.card small {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #888;
+}
+
+/* LINKS UNDERLINE */
+a {
+  position: relative;
+  color: inherit;
+}
+
+a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background: currentColor;
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+/* NO RESULTS */
+#noResults {
+  display: none;
+  color: #777;
+  margin-top: 20px;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  border-top: 1px solid #222;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Scriptorium</div>
+  <nav>
+    <a href="#">Home</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>Scriptorium</h1>
+  <p>Ad maiorem Dei gloriam</p>
+</div>
+
+<div class="search">
+  <input id="search" placeholder="Search essays..." onkeyup="searchEssays()">
+</div>
+
+<div class="filters">
+  <button onclick="filter('all')">All</button>
+  <button onclick="filter('philosophy')">Philosophy</button>
+  <button onclick="filter('theology')">Theology</button>
+</div>
+
+<div class="container">
+
+  <!-- STORIES -->
+<div class="stories" id="storiesContainer"></div>
+
+<a href="archive.html" class="archive-link">
+  View all updates 
+</a>
+
+</div>
+  <!-- FEATURED -->
+  <div class="featured">
+    <a href="essays/essay1.html">
+      <h2>Our Father</h2>
+      <p>the Lord's prayer.</p>
+    </a>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid">
+
+    <a href="essays/essay1.html" class="card theology">
+      <strong>Our Father</strong>
+      <small>Theology • March 2026 • 4 min read</small>
+    </a>
+
+    <a href="essay2.html" class="card philosophy">
+      <strong>Faith & Reason</strong>
+      <small>philosophy • March 2026 • 5 min read</small>
+    </a>
+
+  </div>
+
+  <p id="noResults">No essays found.</p>
+
+</div>
+
+<footer>
+  last updated • 2026
+</footer>
+
+<script src="stories.js"></script>
+<script>
+function searchEssays() {
+  let input = document.getElementById("search").value.toLowerCase();
+  let cards = document.querySelectorAll(".card");
+  let found = false;
+
+  cards.forEach(card => {
+    let match = card.innerText.toLowerCase().includes(input);
+    card.style.display = match ? "block" : "none";
+    if (match) found = true;
+  });
+
+  document.getElementById("noResults").style.display = found ? "none" : "block";
+}
+
+function filter(type) {
+  let cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+    if (type === "all" || card.classList.contains(type)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+const container = document.getElementById("storiesContainer");
+
+stories.slice(-5).reverse().forEach(story => {
+
+  container.innerHTML += `
+  <div class="story"
+    onclick="openStory('${story.image}','${story.text}')">
+
+    <img src="${story.image}">
+    <span>${story.title}</span>
+
+  </div>
+  `;
+
+});
+
+function openStory(img, text){
+
+  document.getElementById("storyViewer").style.display = "flex";
+
+  document.getElementById("viewerImg").src = img;
+
+  document.getElementById("viewerText").innerText = text;
+}
+
+window.onload = function(){
+
+  document.getElementById("closeViewer").onclick = function(){
+    document.getElementById("storyViewer").style.display = "none";
+  };
+
+  document.getElementById("storyViewer").onclick = function(e){
+    if(e.target === document.getElementById("storyViewer")){
+      document.getElementById("storyViewer").style.display = "none";
+    }
+  };
+
+};
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(() => console.log('Service Worker Registered'));
+}
+</script>
+
+<div id="storyViewer">
+  <button id="closeViewer"> Back</button>
+
+  <div class="viewer-content">
+    <img id="viewerImg">
+    <p id="viewerText"></p>
+  </div>
+</div>
+
+</body>
+</html>

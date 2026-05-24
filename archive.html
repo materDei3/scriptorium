@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Archive</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+  background:#0f1115;
+  color:white;
+  font-family:Inter,sans-serif;
+  padding:40px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#161925;
+  border-radius:18px;
+  overflow:hidden;
+}
+
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+}
+
+.card p{
+  padding:15px;
+}
+
+small{
+  color:#888;
+  padding:0 15px 15px;
+  display:block;
+}
+
+#storyViewer{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.92);
+
+  display:none;
+  justify-content:center;
+  align-items:center;
+
+  z-index:999;
+}
+
+#closeViewer{
+  position:absolute;
+  top:25px;
+  left:25px;
+
+  background:#161925;
+  color:#ddd;
+
+  border:none;
+  padding:10px 16px;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+.viewer-content{
+  width:92%;
+  max-width:420px;
+  text-align:center;
+}
+
+.viewer-content img{
+  width:100%;
+  border-radius:20px;
+}
+
+.viewer-content p{
+  margin-top:18px;
+  color:#ddd;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Story Archive</h1>
+
+<div class="grid" id="archive"></div>
+
+<script src="stories.js"></script>
+
+<script>
+
+const archive = document.getElementById("archive");
+
+stories.slice().reverse().forEach(story => {
+
+archive.innerHTML += `
+<div class="card" onclick="openStory('${story.image}','${story.text}')">
+
+  <img src="${story.image}">
+  <p>${story.text}</p>
+  <small>${story.date}</small>
+
+</div>
+`;
+
+});
+
+function openStory(img, text){
+
+  document.getElementById("storyViewer").style.display = "flex";
+
+  document.getElementById("viewerImg").src = img;
+
+  document.getElementById("viewerText").innerText = text;
+}
+
+window.onload = function(){
+
+  const closeBtn = document.getElementById("closeViewer");
+
+  const viewer = document.getElementById("storyViewer");
+
+  closeBtn.onclick = function(){
+    viewer.style.display = "none";
+  };
+
+  viewer.onclick = function(e){
+    if(e.target === viewer){
+      viewer.style.display = "none";
+    }
+  };
+
+};
+
+</script>
+
+<div id="storyViewer">
+  <button id="closeViewer">← Back</button>
+
+  <div class="viewer-content">
+    <img id="viewerImg">
+    <p id="viewerText"></p>
+  </div>
+</div>
+
+</body>
+</html>
