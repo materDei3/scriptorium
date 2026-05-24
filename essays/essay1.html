@@ -1,1 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>On Truth</title>
 
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #0f1115;
+  color: #e6e6e6;
+
+  max-width: 700px;
+  margin: auto;
+  padding: 60px 20px;
+
+  line-height: 1.9;
+  font-size: 18px;
+
+  transition: background 0.3s, color 0.3s;
+}
+
+/* PROGRESS BAR */
+#progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: white;
+  width: 0%;
+  z-index: 999;
+}
+
+/* MODE BUTTONS */
+.modes {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 8px;
+}
+
+.modes button {
+  background: #1b1f2a;
+  color: #aaa;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.modes button:hover {
+  color: white;
+}
+
+/* LIGHT MODE */
+body.light {
+  background: #f5f1e6;
+  color: #1a1a1a;
+}
+
+/* BOOK MODE */
+body.book {
+  background: #f4ecd8;
+  color: #2b2b2b;
+  font-family: Georgia, serif;
+}
+
+/* TEXT */
+p {
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+/* LINKS */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ========================= */
+/* 🔥 FIXED FOCUS MODE */
+/* ========================= */
+
+body.focus .modes,
+body.focus h1,
+body.focus small,
+body.focus a {
+  opacity: 0.15;
+  transition: 0.3s;
+}
+
+body.focus p {
+  opacity: 1;
+}
+
+/* IMPORTANT: DO NOT override background */
+body.focus {
+  transition: background 0.3s, color 0.3s;
+}
+</style>
+</head>
+
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress"></div>
+
+<!-- MODE BUTTONS -->
+<div class="modes">
+  <button onclick="setMode('dark')">Dark</button>
+  <button onclick="setMode('light')">Light</button>
+  <button onclick="setMode('book')">Book</button>
+  <button onclick="toggleFocus()">Focus</button>
+</div>
+
+<a href="../index.html">← Back</a>
+
+<h1>On Truth</h1>
+<p><small>March 2026 • 4 min read</small></p>
+
+<div id="essay"></div>
+
+<script>
+/* PROGRESS BAR */
+window.onscroll = function () {
+  let winScroll = document.documentElement.scrollTop;
+  let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  let scrolled = (winScroll / height) * 100;
+  document.getElementById("progress").style.width = scrolled + "%";
+
+  localStorage.setItem("scroll", window.scrollY);
+};
+
+/* MODE SWITCH */
+function setMode(mode) {
+  document.body.classList.remove("light", "book");
+
+  if (mode !== "dark") {
+    document.body.classList.add(mode);
+  }
+
+  localStorage.setItem("mode", mode);
+}
+
+/* RESTORE STATE */
+window.onload = function () {
+  let savedMode = localStorage.getItem("mode");
+  if (savedMode && savedMode !== "dark") {
+    document.body.classList.add(savedMode);
+  }
+
+  let savedScroll = localStorage.getItem("scroll");
+  if (savedScroll) {
+    window.scrollTo(0, savedScroll);
+  }
+};
+
+/* FOCUS MODE */
+function toggleFocus() {
+  document.body.classList.toggle("focus");
+}
+
+fetch("../texts/essay1.txt")
+  .then(res => {
+    if (!res.ok) throw new Error("File not found");
+    return res.text();
+  })
+  .then(text => {
+    document.getElementById("essay").innerHTML =
+      text.trim().split(/\n\s*\n/).map(p => `<p>${p}</p>`).join("");
+  })
+  .catch(err => {
+    document.getElementById("essay").innerHTML =
+      "<p style='color:red;'>Failed to load essay.txt</p>";
+    console.error(err);
+  });
+</script>
+
+</body>
+</html>
