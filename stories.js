@@ -3,23 +3,22 @@ const stories = [
 {
   image: "images/story1.jpg",
   title: "Reading",
-  text: "wt do i put in this whole section.",
+  text: "Late night Augustine reading.",
   date: "May 2026"
 },
 
 {
   image: "images/story2.jpg",
-  title: "texts",
-  text: "it's under maintenance.",
+  title: "Coffee",
+  text: "Coffee carrying theology again.",
   date: "May 2026"
 },
 
 {
   image: "images/story3.jpg",
   title: "Notes",
-  text: "yea didn't think of anything to write here.",
+  text: "Writing notes on memory.",
   date: "May 2026"
 }
 
 ];
-
